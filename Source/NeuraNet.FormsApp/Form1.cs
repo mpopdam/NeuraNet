@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NeuraNet.Activations;
+using NeuraNet.Cost;
 using NeuraNet.Serialization;
 
 namespace NeuraNet.FormsApp
@@ -22,7 +23,7 @@ namespace NeuraNet.FormsApp
         private NeuralNetwork network;
 
         private Bitmap drawnDigit;
-        private bool isWriting = false;
+        private bool isWriting;
         private Point previousPoint;
 
         public NeuralNetworkDemoForm()
@@ -43,10 +44,7 @@ namespace NeuraNet.FormsApp
 
         private void NeuralNetworkDemoForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (drawnDigit != null)
-            {
-                drawnDigit.Dispose();
-            }
+            drawnDigit?.Dispose();
         }
 
         private void ResetNetworkLayerControls()
@@ -89,7 +87,7 @@ namespace NeuraNet.FormsApp
 
             Layer hiddenLayer1 = layers.ElementAt(0);
             hiddenLayer1NeuronCountSelector.Value = hiddenLayer1.NeuronCount;
-            hiddenLayer1ActivationDropdown.SelectedItem = hiddenLayer1.OutputActivation.Name;
+            hiddenLayer1ActivationDropdown.SelectedItem = hiddenLayer1.ActivationFunction.Name;
 
             int hiddenLayerCount = layers.Count() - 1; // input layer is not in the list; last layer is output layer
             if (hiddenLayerCount > 1)
@@ -97,7 +95,7 @@ namespace NeuraNet.FormsApp
                 Layer hiddenLayer = layers.ElementAt(1);
                 hiddenLayer2CheckBox.Checked = true;
                 hiddenLayer2NeuronCountSelector.Value = hiddenLayer.NeuronCount;
-                hiddenLayer2ActivationDropdown.SelectedItem = hiddenLayer.OutputActivation.Name;
+                hiddenLayer2ActivationDropdown.SelectedItem = hiddenLayer.ActivationFunction.Name;
             }
 
             if (hiddenLayerCount > 2)
@@ -105,7 +103,7 @@ namespace NeuraNet.FormsApp
                 Layer hiddenLayer = layers.ElementAt(2);
                 hiddenLayer3CheckBox.Checked = true;
                 hiddenLayer3NeuronCountSelector.Value = hiddenLayer.NeuronCount;
-                hiddenLayer3ActivationDropdown.SelectedItem = hiddenLayer.OutputActivation.Name;
+                hiddenLayer3ActivationDropdown.SelectedItem = hiddenLayer.ActivationFunction.Name;
             }
         }
 
@@ -281,7 +279,7 @@ namespace NeuraNet.FormsApp
             }
 
             var layout = new CustomNetworkLayout(layer1, nextLayers.ToArray());
-            network = new NeuralNetwork(layout);
+            network = new NeuralNetwork(layout, new QuadraticCost());
         }
 
         private LayerConfiguration GetLayerConfiguration(NumericUpDown neuronCountSelector, ComboBox activationDropdown)
@@ -289,7 +287,23 @@ namespace NeuraNet.FormsApp
             int neuronCount = decimal.ToInt32(neuronCountSelector.Value);
             string selectedItem = (string)activationDropdown.SelectedItem;
 
-            IActivation activation = new SigmoidActivation();
+            IActivation activation;
+            if (selectedItem == "Tanh")
+            {
+                activation = new HyperbolicTangentActivation();
+            }
+            else if (selectedItem == "ReLU")
+            {
+                activation = new RectifiedLinearUnitActivation();
+            }
+            else if (selectedItem == "Softplus")
+            {
+                activation = new SoftplusActivation();
+            }
+            else
+            {
+                activation = new SigmoidActivation();
+            }
 
             return new LayerConfiguration(neuronCount, activation);
         }
@@ -323,7 +337,7 @@ namespace NeuraNet.FormsApp
 
         private void UpdateTrainingProgress(object sender, ExampleTrainedEventArgs args)
         {
-            if (args.CurrentExample % 10 != 0)
+            if (args.CurrentExample % 50 != 0)
             {
                 return;
             }
@@ -518,9 +532,9 @@ namespace NeuraNet.FormsApp
                 }
 
                 using (Graphics g = Graphics.FromImage(drawnDigit))
-                using (Pen pen = new Pen(Color.Black, 2))
+                using (Pen pen = new Pen(Color.FromArgb(5, 5, 5), 2))
                 {
-                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
                     g.DrawLine(pen, previousPoint, e.Location);
                     previousPoint = e.Location;
                     writingPanel.Invalidate();
@@ -532,7 +546,7 @@ namespace NeuraNet.FormsApp
         {
             drawnDigit = new Bitmap(writingPanel.Width, writingPanel.Height);
 
-            using (Graphics g = Graphics.FromImage(drawnDigit))
+            using (Graphics.FromImage(drawnDigit))
             {
                 writingPanel.Invalidate();
             }

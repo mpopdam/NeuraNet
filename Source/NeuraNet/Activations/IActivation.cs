@@ -9,6 +9,11 @@ namespace NeuraNet.Activations
     public interface IActivation
     {
         /// <summary>
+        /// The name of the activation function
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// Calculates activation for the specified input <paramref name="values"/>.
         /// </summary>
         /// <remarks>

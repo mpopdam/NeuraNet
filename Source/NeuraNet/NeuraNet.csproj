@@ -49,15 +49,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activations\Activation.cs" />
+    <Compile Include="Activations\HyperbolicTangentActivation.cs" />
     <Compile Include="Activations\IActivation.cs" />
+    <Compile Include="Activations\RectifiedLinearUnitActivation.cs" />
     <Compile Include="Activations\SigmoidActivation.cs" />
     <Compile Include="Cost\ICostFunction.cs" />
     <Compile Include="Cost\QuadraticCost.cs" />
     <Compile Include="Epoch.cs" />
+    <Compile Include="Activations\SoftplusActivation.cs" />
+    <Compile Include="ExampleTrainedEventArgs.cs" />
+    <Compile Include="NetworkLayout\NetworkLayoutProvider.cs" />
+    <Compile Include="Serialization\LayerJson.cs" />
+    <Compile Include="Serialization\NetworkJson.cs" />
+    <Compile Include="Serialization\NetworkJsonConverter.cs" />
     <Compile Include="NetworkLayout\ILayerInitializer.cs" />
     <Compile Include="NetworkLayout\INetworkLayoutProvider.cs" />
     <Compile Include="Layer.cs" />
-    <Compile Include="NetworkLayout\NetworkLayoutProvider.cs" />
     <Compile Include="NetworkLayout\RandomLayerInitializer.cs" />
     <Compile Include="NeuralNetwork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

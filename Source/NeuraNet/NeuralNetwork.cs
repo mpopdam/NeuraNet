@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using MathNet.Numerics.LinearAlgebra;
-
 using NeuraNet.Cost;
 using NeuraNet.NetworkLayout;
 
@@ -19,15 +19,22 @@ namespace NeuraNet
 
         public ICostFunction CostFunction { get; }
 
+        public event EventHandler<ExampleTrainedEventArgs> ExampleTrained = delegate { };
+
         /// <summary>
         /// Instantiates a new neural network with the layout provided by the specified <paramref name="layoutProvider"/>.
         /// </summary>
         /// <param name="layoutProvider">Provides the layout of the network</param>
         public NeuralNetwork(INetworkLayoutProvider layoutProvider, ICostFunction costFunction)
+            : this(layoutProvider.GetLayers(), costFunction)
         {
-            layers = layoutProvider.GetLayers();
-            firstHiddenLayer = layers.First();
-            outputLayer = layers.Last();
+        }
+
+        public NeuralNetwork(IEnumerable<Layer> layers, ICostFunction costFunction)
+        {
+            this.layers = layers.ToArray();
+            firstHiddenLayer = this.layers.First();
+            outputLayer = this.layers.Last();
 
             CostFunction = costFunction;
         }
@@ -68,13 +75,13 @@ namespace NeuraNet
 
             for (int epoch = 1; epoch <= numberOfEpochs; epoch++)
             {
-                meanCost = TrainAllExamples(new Epoch(trainingExamples, epoch), learningRate, momentum);
+                meanCost = TrainAllExamples(new Epoch(trainingExamples, epoch), numberOfEpochs, learningRate, momentum);
             }
 
             return meanCost;
         }
 
-        private double TrainAllExamples(Epoch epoch, double learningRate, double momentum)
+        private double TrainAllExamples(Epoch epoch, int numberOfEpochs, double learningRate, double momentum)
         {
             double meanCost = 0;
             double totalCostForAllExamples = 0.0;
@@ -85,11 +92,27 @@ namespace NeuraNet
                 totalCostForAllExamples += Train(example.Input, example.ExpectedOutput, learningRate, momentum);
 
                 meanCost = totalCostForAllExamples / currentExample;
+                OnExampleTrained(epoch.Sequence, numberOfEpochs, currentExample, epoch.Examples.Length, meanCost);
 
                 currentExample++;
             }
 
             return meanCost;
+        }
+
+        private void OnExampleTrained(
+            int currentEpoch, int totalNumberOfEpochs, int currentExample, int totalNumberOfExamples, double meanCost)
+        {
+            ExampleTrainedEventArgs arguments = new ExampleTrainedEventArgs
+            {
+                CurrentEpoch = currentEpoch,
+                TotalEpochCount = totalNumberOfEpochs,
+                CurrentExample = currentExample,
+                TotalExampleCount = totalNumberOfExamples,
+                MeanCost = meanCost,
+            };
+
+            ExampleTrained(this, arguments);
         }
 
         private double Train(double[] input, Vector<double> target, double learningRate, double momentum)
