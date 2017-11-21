@@ -18,6 +18,11 @@ namespace NeuraNet
 
         internal Matrix<double> Weights { get; }
         internal Vector<double> Biases { get; }
+        private Vector<double> inputs;
+        private Vector<double> z;
+
+        internal Matrix<double> WeightGradients { get; private set; }
+        internal Vector<double> BiasGradients { get; private set; }
 
         public Layer(int numberOfNeuronsInPreviousLayer, int numberOfNeurons, ILayerInitializer layerInitializer,
             IActivation activationFunction)
@@ -51,10 +56,36 @@ namespace NeuraNet
 
         private Vector<double> FeedForward(Vector<double> inputs)
         {
-            Vector<double> z = (Weights * inputs) + Biases;
+            this.inputs = inputs;
+
+            z = (Weights * inputs) + Biases;
             Vector<double> activations = ActivationFunction.Calculate(z);
 
             return (nextLayer != null) ? nextLayer.FeedForward(activations) : activations;
+        }
+
+        /// <summary>
+        /// Propagates the network output error backwards through the network by calculating the gradients for the current layer.
+        /// If the current layer has a <see cref="previousLayer"/> the <see cref="PreviousLayerActivationGradients"/> will be
+        /// propagated backwards to that layer, so that eventually the gradients will be calculated for all layers in the network.
+        /// </summary>
+        /// <param name="dC_dA">Derivative of the cost with respect to the activations of the current layer</param>
+        public void BackPropagate(Vector<double> dC_dA)
+        {
+            CalculateGradients(dC_dA);
+        }
+
+        /// <summary>
+        /// Calculates the gradient for the current layer based on the gradients and input weights of the next layer
+        /// in the neural network.
+        /// </summary>
+        /// <param name="dC_dA">Derivative of cost w.r.t. the hidden layer output</param>
+        /// <remarks>
+        /// Gradients are a measure of how far off, and in what direction (positive or negative) the current layer's 
+        /// output values are.
+        /// </remarks>
+        private void CalculateGradients(Vector<double> dC_dA)
+        {
         }
     }
 }

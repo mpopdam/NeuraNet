@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using FluentAssertions;
 
@@ -93,6 +94,40 @@ namespace NeuraNet.Specs
 
             // Assert
             cost.Should().BeApproximately(0.83395, 0.000005);
+        }
+
+        [Fact]
+        public void When_training_the_network_for_a_single_epoch_it_should_calculate_the_gradients()
+        {
+            // Arrange
+            const int numberOfEpochs = 1;
+
+            var network = new NeuralNetworkBuilder()
+                .Using(new TwoLayerNetworkProvider())
+                .Build();
+
+            // Act
+            network.Train(new[]
+            {
+                new TrainingExample(new[] { 0.1, 0.2, 0.3 }, new[] { 1.0, 0.0 })
+            }, numberOfEpochs);
+
+            // Assert
+            Layer outputLayer = network.GetLayers().Last();
+
+            double[] outputWeightGradients = outputLayer.WeightGradients.ToRowMajorArray();
+            outputWeightGradients[0].Should().BeApproximately(-0.07225635, 0.000000005);
+            outputWeightGradients[1].Should().BeApproximately(-0.07867644, 0.000000005);
+            outputWeightGradients[2].Should().BeApproximately(-0.08484882, 0.000000005);
+            outputWeightGradients[3].Should().BeApproximately(-0.09067289, 0.000000005);
+            outputWeightGradients[4].Should().BeApproximately(0.11406304, 0.000000005);
+            outputWeightGradients[5].Should().BeApproximately(0.12419773, 0.000000005);
+            outputWeightGradients[6].Should().BeApproximately(0.13394138, 0.000000005);
+            outputWeightGradients[7].Should().BeApproximately(0.14313518, 0.000000005);
+
+            var outputBiasGradients = outputLayer.BiasGradients.ToArray();
+            outputBiasGradients[0].Should().BeApproximately(-0.131415, 0.0000005);
+            outputBiasGradients[1].Should().BeApproximately(0.207450, 0.0000005);
         }
     }
 }
