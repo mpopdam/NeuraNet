@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Activations\Activation.cs" />
     <Compile Include="Activations\IActivation.cs" />
+    <Compile Include="Activations\SigmoidActivation.cs" />
     <Compile Include="NetworkLayout\ILayerInitializer.cs" />
     <Compile Include="NetworkLayout\INetworkLayoutProvider.cs" />
     <Compile Include="Layer.cs" />
