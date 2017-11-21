@@ -16,8 +16,8 @@ namespace NeuraNet
 
         public IActivation ActivationFunction { get; }
 
-        internal Matrix<double> Weights { get; }
-        internal Vector<double> Biases { get; }
+        internal Matrix<double> Weights { get; private set; }
+        internal Vector<double> Biases { get; private set; }
         private Vector<double> inputs;
         private Vector<double> z;
 
@@ -101,6 +101,30 @@ namespace NeuraNet
             {
                 PreviousLayerActivationGradients = nodeDeltas * Weights;
             }
+        }
+
+        /// <summary>
+        /// Performs gradient descent by updating the <see cref="Weights"/> and <see cref="Biases"/> for the current layer.
+        /// If the layer has a <see cref="nextLayer"/> then the same gradient descent is triggered for that layer, so that
+        /// eventually all layers of the network will have updated their <see cref="Weights"/> and <see cref="Biases"/>.
+        /// </summary>
+        /// <param name="learningRate">
+        /// A constant that influences how big the changes to weights and bias values should be. A higher learning rate
+        /// means a faster network by taking bigger steps, at the cost of a higher chance of missing the 'sweet spot' of
+        /// the lowest network error.
+        /// </param>
+        public void PerformGradientDescent(double learningRate)
+        {
+            UpdateWeights(learningRate);
+            UpdateBiases(learningRate);
+        }
+
+        private void UpdateWeights(double learningRate)
+        {
+        }
+
+        private void UpdateBiases(double learningRate)
+        {
         }
     }
 }
