@@ -88,11 +88,11 @@
             this.result9Text = new System.Windows.Forms.Label();
             this.networkAnswerLabel = new System.Windows.Forms.Label();
             this.testIndividualDigitGroupBox = new System.Windows.Forms.GroupBox();
+            this.answerLabel = new System.Windows.Forms.Label();
+            this.writeDigitLabel = new System.Windows.Forms.Label();
             this.readDrawnDigitButton = new System.Windows.Forms.Button();
             this.clearDigitButton = new System.Windows.Forms.Button();
             this.writingPanel = new System.Windows.Forms.Panel();
-            this.writeDigitLabel = new System.Windows.Forms.Label();
-            this.answerLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.digitPictureBox)).BeginInit();
             this.trainNetworkGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numberOfEpochsNumberSelector)).BeginInit();
@@ -109,7 +109,7 @@
             // 
             // digitPictureBox
             // 
-            this.digitPictureBox.Location = new System.Drawing.Point(126, 17);
+            this.digitPictureBox.Location = new System.Drawing.Point(125, 17);
             this.digitPictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.digitPictureBox.Name = "digitPictureBox";
             this.digitPictureBox.Size = new System.Drawing.Size(32, 32);
@@ -255,12 +255,7 @@
             this.momentumNumberSelector.Location = new System.Drawing.Point(173, 46);
             this.momentumNumberSelector.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.momentumNumberSelector.Maximum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.momentumNumberSelector.Minimum = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             65536});
@@ -504,7 +499,7 @@
             this.hiddenLayer2NeuronCountSelector.Size = new System.Drawing.Size(95, 22);
             this.hiddenLayer2NeuronCountSelector.TabIndex = 7;
             this.hiddenLayer2NeuronCountSelector.Value = new decimal(new int[] {
-            10,
+            16,
             0,
             0,
             0});
@@ -568,7 +563,7 @@
             this.hiddenLayer1NeuronCountSelector.Size = new System.Drawing.Size(95, 22);
             this.hiddenLayer1NeuronCountSelector.TabIndex = 2;
             this.hiddenLayer1NeuronCountSelector.Value = new decimal(new int[] {
-            10,
+            16,
             0,
             0,
             0});
@@ -612,7 +607,7 @@
             // result0Text
             // 
             this.result0Text.AutoSize = true;
-            this.result0Text.Location = new System.Drawing.Point(334, 18);
+            this.result0Text.Location = new System.Drawing.Point(333, 18);
             this.result0Text.Name = "result0Text";
             this.result0Text.Size = new System.Drawing.Size(36, 17);
             this.result0Text.TabIndex = 13;
@@ -630,7 +625,7 @@
             // result1Text
             // 
             this.result1Text.AutoSize = true;
-            this.result1Text.Location = new System.Drawing.Point(334, 34);
+            this.result1Text.Location = new System.Drawing.Point(333, 34);
             this.result1Text.Name = "result1Text";
             this.result1Text.Size = new System.Drawing.Size(36, 17);
             this.result1Text.TabIndex = 13;
@@ -648,7 +643,7 @@
             // result2Text
             // 
             this.result2Text.AutoSize = true;
-            this.result2Text.Location = new System.Drawing.Point(334, 52);
+            this.result2Text.Location = new System.Drawing.Point(333, 52);
             this.result2Text.Name = "result2Text";
             this.result2Text.Size = new System.Drawing.Size(36, 17);
             this.result2Text.TabIndex = 13;
@@ -666,7 +661,7 @@
             // result3Text
             // 
             this.result3Text.AutoSize = true;
-            this.result3Text.Location = new System.Drawing.Point(334, 69);
+            this.result3Text.Location = new System.Drawing.Point(333, 69);
             this.result3Text.Name = "result3Text";
             this.result3Text.Size = new System.Drawing.Size(36, 17);
             this.result3Text.TabIndex = 13;
@@ -684,7 +679,7 @@
             // result4Text
             // 
             this.result4Text.AutoSize = true;
-            this.result4Text.Location = new System.Drawing.Point(334, 86);
+            this.result4Text.Location = new System.Drawing.Point(333, 86);
             this.result4Text.Name = "result4Text";
             this.result4Text.Size = new System.Drawing.Size(36, 17);
             this.result4Text.TabIndex = 13;
@@ -702,7 +697,7 @@
             // result5Text
             // 
             this.result5Text.AutoSize = true;
-            this.result5Text.Location = new System.Drawing.Point(334, 103);
+            this.result5Text.Location = new System.Drawing.Point(333, 103);
             this.result5Text.Name = "result5Text";
             this.result5Text.Size = new System.Drawing.Size(36, 17);
             this.result5Text.TabIndex = 13;
@@ -720,7 +715,7 @@
             // result6Text
             // 
             this.result6Text.AutoSize = true;
-            this.result6Text.Location = new System.Drawing.Point(334, 121);
+            this.result6Text.Location = new System.Drawing.Point(333, 121);
             this.result6Text.Name = "result6Text";
             this.result6Text.Size = new System.Drawing.Size(36, 17);
             this.result6Text.TabIndex = 13;
@@ -738,7 +733,7 @@
             // result7Text
             // 
             this.result7Text.AutoSize = true;
-            this.result7Text.Location = new System.Drawing.Point(334, 137);
+            this.result7Text.Location = new System.Drawing.Point(333, 137);
             this.result7Text.Name = "result7Text";
             this.result7Text.Size = new System.Drawing.Size(36, 17);
             this.result7Text.TabIndex = 13;
@@ -756,7 +751,7 @@
             // result8Text
             // 
             this.result8Text.AutoSize = true;
-            this.result8Text.Location = new System.Drawing.Point(334, 154);
+            this.result8Text.Location = new System.Drawing.Point(333, 154);
             this.result8Text.Name = "result8Text";
             this.result8Text.Size = new System.Drawing.Size(36, 17);
             this.result8Text.TabIndex = 13;
@@ -774,7 +769,7 @@
             // result9Text
             // 
             this.result9Text.AutoSize = true;
-            this.result9Text.Location = new System.Drawing.Point(334, 171);
+            this.result9Text.Location = new System.Drawing.Point(333, 171);
             this.result9Text.Name = "result9Text";
             this.result9Text.Size = new System.Drawing.Size(36, 17);
             this.result9Text.TabIndex = 13;
@@ -832,9 +827,28 @@
             this.testIndividualDigitGroupBox.TabStop = false;
             this.testIndividualDigitGroupBox.Text = "Test Single Digit";
             // 
+            // answerLabel
+            // 
+            this.answerLabel.AutoSize = true;
+            this.answerLabel.Location = new System.Drawing.Point(221, 62);
+            this.answerLabel.Name = "answerLabel";
+            this.answerLabel.Size = new System.Drawing.Size(58, 17);
+            this.answerLabel.TabIndex = 18;
+            this.answerLabel.Text = "Answer:";
+            // 
+            // writeDigitLabel
+            // 
+            this.writeDigitLabel.AutoSize = true;
+            this.writeDigitLabel.Location = new System.Drawing.Point(5, 102);
+            this.writeDigitLabel.Name = "writeDigitLabel";
+            this.writeDigitLabel.Size = new System.Drawing.Size(136, 17);
+            this.writeDigitLabel.TabIndex = 17;
+            this.writeDigitLabel.Text = "Write your own digit:";
+            // 
             // readDrawnDigitButton
             // 
-            this.readDrawnDigitButton.Location = new System.Drawing.Point(54, 160);
+            this.readDrawnDigitButton.Location = new System.Drawing.Point(53, 160);
+            this.readDrawnDigitButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.readDrawnDigitButton.Name = "readDrawnDigitButton";
             this.readDrawnDigitButton.Size = new System.Drawing.Size(60, 30);
             this.readDrawnDigitButton.TabIndex = 16;
@@ -844,7 +858,8 @@
             // 
             // clearDigitButton
             // 
-            this.clearDigitButton.Location = new System.Drawing.Point(94, 123);
+            this.clearDigitButton.Location = new System.Drawing.Point(93, 123);
+            this.clearDigitButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.clearDigitButton.Name = "clearDigitButton";
             this.clearDigitButton.Size = new System.Drawing.Size(20, 34);
             this.clearDigitButton.TabIndex = 15;
@@ -855,7 +870,7 @@
             // writingPanel
             // 
             this.writingPanel.BackColor = System.Drawing.Color.White;
-            this.writingPanel.Location = new System.Drawing.Point(54, 123);
+            this.writingPanel.Location = new System.Drawing.Point(53, 123);
             this.writingPanel.Margin = new System.Windows.Forms.Padding(0);
             this.writingPanel.Name = "writingPanel";
             this.writingPanel.Size = new System.Drawing.Size(37, 34);
@@ -865,24 +880,6 @@
             this.writingPanel.MouseLeave += new System.EventHandler(this.writingPanel_MouseLeave);
             this.writingPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.writingPanel_MouseMove);
             this.writingPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.writingPanel_MouseUp);
-            // 
-            // writeDigitLabel
-            // 
-            this.writeDigitLabel.AutoSize = true;
-            this.writeDigitLabel.Location = new System.Drawing.Point(6, 102);
-            this.writeDigitLabel.Name = "writeDigitLabel";
-            this.writeDigitLabel.Size = new System.Drawing.Size(136, 17);
-            this.writeDigitLabel.TabIndex = 17;
-            this.writeDigitLabel.Text = "Write your own digit:";
-            // 
-            // answerLabel
-            // 
-            this.answerLabel.AutoSize = true;
-            this.answerLabel.Location = new System.Drawing.Point(221, 62);
-            this.answerLabel.Name = "answerLabel";
-            this.answerLabel.Size = new System.Drawing.Size(58, 17);
-            this.answerLabel.TabIndex = 18;
-            this.answerLabel.Text = "Answer:";
             // 
             // NeuralNetworkDemoForm
             // 
@@ -895,7 +892,7 @@
             this.Controls.Add(this.trainNetworkGroupBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MinimumSize = new System.Drawing.Size(978, 680);
+            this.MinimumSize = new System.Drawing.Size(978, 678);
             this.Name = "NeuralNetworkDemoForm";
             this.Text = "Handwritten Digits Neural Network Demo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NeuralNetworkDemoForm_FormClosing);

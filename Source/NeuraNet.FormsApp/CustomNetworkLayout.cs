@@ -5,30 +5,27 @@ using NeuraNet.NetworkLayout;
 
 namespace NeuraNet.FormsApp
 {
-    internal class CustomNetworkLayout : INetworkLayoutProvider
+    internal class CustomNetworkLayout : NetworkLayoutProvider
     {
-        private readonly List<Layer> layers;
-
-        public CustomNetworkLayout(LayerConfiguration firstHiddenLayer, params LayerConfiguration[] nextHiddenLayers)
+        public CustomNetworkLayout(LayerConfiguration firstHiddenConfig, params LayerConfiguration[] nextHiddenConfigs)
         {
             var initializer = new RandomLayerInitializer();
 
-            layers = new List<Layer>();
-            layers.Add(new Layer(784, firstHiddenLayer.NeuronCount, initializer, firstHiddenLayer.OutputActivation));
-
-            int previousLayerNeuronCount = firstHiddenLayer.NeuronCount;
-            foreach (LayerConfiguration hiddenLayer in nextHiddenLayers)
+            layers = new List<Layer>
             {
-                layers.Add(new Layer(previousLayerNeuronCount, hiddenLayer.NeuronCount, initializer, hiddenLayer.OutputActivation));
-                previousLayerNeuronCount = hiddenLayer.NeuronCount;
+                new Layer(784, firstHiddenConfig.NeuronCount, initializer, firstHiddenConfig.OutputActivation)
+            };
+
+            int previousLayerNeuronCount = firstHiddenConfig.NeuronCount;
+            foreach (LayerConfiguration layerConfig in nextHiddenConfigs)
+            {
+                layers.Add(new Layer(previousLayerNeuronCount, layerConfig.NeuronCount, initializer, layerConfig.OutputActivation));
+                previousLayerNeuronCount = layerConfig.NeuronCount;
             }
 
             layers.Add(new Layer(previousLayerNeuronCount, 10, initializer, new SigmoidActivation()));
-        }
 
-        public IEnumerable<Layer> GetLayers()
-        {
-            return layers;
+            ConnectLayers();
         }
     }
 }

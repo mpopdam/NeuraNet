@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuraNet.Specs", "Source\Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuraNet", "Source\NeuraNet\NeuraNet.csproj", "{CE10FFF1-7174-4042-90E6-576123FC456D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuraNet.FormsApp", "Source\NeuraNet.FormsApp\NeuraNet.FormsApp.csproj", "{18176635-DB4F-4473-BA8A-FD6F609C2887}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CE10FFF1-7174-4042-90E6-576123FC456D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE10FFF1-7174-4042-90E6-576123FC456D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE10FFF1-7174-4042-90E6-576123FC456D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18176635-DB4F-4473-BA8A-FD6F609C2887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18176635-DB4F-4473-BA8A-FD6F609C2887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18176635-DB4F-4473-BA8A-FD6F609C2887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18176635-DB4F-4473-BA8A-FD6F609C2887}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
