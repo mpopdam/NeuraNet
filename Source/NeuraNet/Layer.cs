@@ -23,6 +23,9 @@ namespace NeuraNet
 
         internal Matrix<double> WeightGradients { get; private set; }
         internal Vector<double> BiasGradients { get; private set; }
+        internal Vector<double> PreviousLayerActivationGradients { get; private set; }
+
+        private bool IsFirstHiddenLayer => previousLayer == null;
 
         public Layer(int numberOfNeuronsInPreviousLayer, int numberOfNeurons, ILayerInitializer layerInitializer,
             IActivation activationFunction)
