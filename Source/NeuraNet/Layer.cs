@@ -117,14 +117,20 @@ namespace NeuraNet
         {
             UpdateWeights(learningRate);
             UpdateBiases(learningRate);
+
+            nextLayer?.PerformGradientDescent(learningRate);
         }
 
         private void UpdateWeights(double learningRate)
         {
+            Matrix<double> deltaWeights = (learningRate * WeightGradients);
+            Weights -= deltaWeights;
         }
 
         private void UpdateBiases(double learningRate)
         {
+            Vector<double> deltaBiases = (learningRate * BiasGradients);
+            Biases -= deltaBiases;
         }
     }
 }
