@@ -56,20 +56,21 @@ namespace NeuraNet
         /// The number of epochs to use for the training. Each epoch means one forward pass and one backward pass of
         /// all the training examples
         /// </param>
+        /// <param name="learningRate">Influences how big the changes to weights and bias values are.</param>
         /// <returns>The mean cost for the examples in the last epoch</returns>
-        public double Train(TrainingExample[] trainingExamples, int numberOfEpochs)
+        public double Train(TrainingExample[] trainingExamples, int numberOfEpochs, double learningRate)
         {
             double meanCost = 0;
 
             for (int epoch = 1; epoch <= numberOfEpochs; epoch++)
             {
-                meanCost = TrainAllExamples(new Epoch(trainingExamples, epoch));
+                meanCost = TrainAllExamples(new Epoch(trainingExamples, epoch), learningRate);
             }
 
             return meanCost;
         }
 
-        private double TrainAllExamples(Epoch epoch)
+        private double TrainAllExamples(Epoch epoch, double learningRate)
         {
             double meanCost = 0;
             double totalCostForAllExamples = 0.0;
@@ -77,7 +78,7 @@ namespace NeuraNet
             int currentExample = 1;
             foreach (TrainingExample example in epoch.Examples)
             {
-                totalCostForAllExamples += Train(example.Input, example.ExpectedOutput);
+                totalCostForAllExamples += Train(example.Input, example.ExpectedOutput, learningRate);
 
                 meanCost = totalCostForAllExamples / currentExample;
 
@@ -87,7 +88,7 @@ namespace NeuraNet
             return meanCost;
         }
 
-        private double Train(double[] input, Vector<double> target)
+        private double Train(double[] input, Vector<double> target, double learningRate)
         {
             Vector<double> output = firstHiddenLayer.FeedForward(input);
 
