@@ -15,6 +15,7 @@ namespace NeuraNet
     {
         private readonly IEnumerable<Layer> layers;
         private readonly Layer firstHiddenLayer;
+        private readonly Layer outputLayer;
 
         public ICostFunction CostFunction { get; }
 
@@ -26,8 +27,17 @@ namespace NeuraNet
         {
             layers = layoutProvider.GetLayers();
             firstHiddenLayer = layers.First();
+            outputLayer = layers.Last();
 
             CostFunction = costFunction;
+        }
+
+        /// <summary>
+        /// Returns the layers of the network
+        /// </summary>
+        public IEnumerable<Layer> GetLayers()
+        {
+            return layers;
         }
 
         /// <summary>
