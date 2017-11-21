@@ -81,6 +81,7 @@ namespace NeuraNet.Specs
             // Arrange
             const int numberOfEpochs = 1;
             const double learningRate = 0.5;
+            const double momentum = 0.0;
 
             var network = new NeuralNetworkBuilder()
                 .Using(new TwoLayerNetworkProvider())
@@ -91,7 +92,7 @@ namespace NeuraNet.Specs
             double cost = network.Train(new[]
             {
                 new TrainingExample(new[] { 0.1, 0.2, 0.3 }, new[] { 1.0, 0.0 })
-            }, numberOfEpochs, learningRate);
+            }, numberOfEpochs, learningRate, momentum);
 
             // Assert
             cost.Should().BeApproximately(0.83395, 0.000005);
@@ -103,6 +104,7 @@ namespace NeuraNet.Specs
             // Arrange
             const int numberOfEpochs = 1;
             const double learningRate = 0.5;
+            const double momentum = 0.0;
 
             var network = new NeuralNetworkBuilder()
                 .Using(new TwoLayerNetworkProvider())
@@ -112,7 +114,7 @@ namespace NeuraNet.Specs
             network.Train(new[]
             {
                 new TrainingExample(new[] { 0.1, 0.2, 0.3 }, new[] { 1.0, 0.0 })
-            }, numberOfEpochs, learningRate);
+            }, numberOfEpochs, learningRate, momentum);
 
             // Assert
             Layer hiddenLayer = network.GetLayers().First();
@@ -167,6 +169,7 @@ namespace NeuraNet.Specs
             // Arrange
             const int numberOfEpochs = 1;
             const double learningRate = 0.5;
+            const double momentum = 0.0;
 
             var network = new NeuralNetworkBuilder()
                 .Using(new TwoLayerNetworkProvider())
@@ -176,7 +179,7 @@ namespace NeuraNet.Specs
             network.Train(new[]
             {
                 new TrainingExample(new[] { 0.1, 0.2, 0.3 }, new[] { 1.0, 0.0 })
-            }, numberOfEpochs, learningRate);
+            }, numberOfEpochs, learningRate, momentum);
 
             // Assert
             Layer hiddenLayer = network.GetLayers().First();
