@@ -57,20 +57,24 @@ namespace NeuraNet
         /// all the training examples
         /// </param>
         /// <param name="learningRate">Influences how big the changes to weights and bias values are.</param>
+        /// <param name="momentum">
+        /// The use of a momentum in the backpropagation algorithm can be helpful in speeding the convergence and
+        /// avoiding local minima.
+        /// </param>
         /// <returns>The mean cost for the examples in the last epoch</returns>
-        public double Train(TrainingExample[] trainingExamples, int numberOfEpochs, double learningRate)
+        public double Train(TrainingExample[] trainingExamples, int numberOfEpochs, double learningRate, double momentum)
         {
             double meanCost = 0;
 
             for (int epoch = 1; epoch <= numberOfEpochs; epoch++)
             {
-                meanCost = TrainAllExamples(new Epoch(trainingExamples, epoch), learningRate);
+                meanCost = TrainAllExamples(new Epoch(trainingExamples, epoch), learningRate, momentum);
             }
 
             return meanCost;
         }
 
-        private double TrainAllExamples(Epoch epoch, double learningRate)
+        private double TrainAllExamples(Epoch epoch, double learningRate, double momentum)
         {
             double meanCost = 0;
             double totalCostForAllExamples = 0.0;
@@ -78,7 +82,7 @@ namespace NeuraNet
             int currentExample = 1;
             foreach (TrainingExample example in epoch.Examples)
             {
-                totalCostForAllExamples += Train(example.Input, example.ExpectedOutput, learningRate);
+                totalCostForAllExamples += Train(example.Input, example.ExpectedOutput, learningRate, momentum);
 
                 meanCost = totalCostForAllExamples / currentExample;
 
@@ -88,13 +92,13 @@ namespace NeuraNet
             return meanCost;
         }
 
-        private double Train(double[] input, Vector<double> target, double learningRate)
+        private double Train(double[] input, Vector<double> target, double learningRate, double momentum)
         {
             Vector<double> output = firstHiddenLayer.FeedForward(input);
 
             outputLayer.BackPropagate(CostFunction.Derivative(output, target));
 
-            firstHiddenLayer.PerformGradientDescent(learningRate);
+            firstHiddenLayer.PerformGradientDescent(learningRate, momentum);
 
             return CostFunction.Calculate(output, target);
         }

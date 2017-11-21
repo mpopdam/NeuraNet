@@ -25,6 +25,9 @@ namespace NeuraNet
         internal Vector<double> BiasGradients { get; private set; }
         internal Vector<double> PreviousLayerActivationGradients { get; private set; }
 
+        private Matrix<double> previousDeltaWeights;
+        private Vector<double> previousDeltaBiases;
+
         private bool IsFirstHiddenLayer => previousLayer == null;
 
         public Layer(int numberOfNeuronsInPreviousLayer, int numberOfNeurons, ILayerInitializer layerInitializer,
@@ -34,6 +37,9 @@ namespace NeuraNet
 
             Weights = Matrix<double>.Build.Dense(numberOfNeurons, numberOfNeuronsInPreviousLayer, layerInitializer.GetWeight);
             Biases = Vector<double>.Build.Dense(numberOfNeurons, layerInitializer.GetBias);
+
+            previousDeltaWeights = Matrix<double>.Build.Dense(Weights.RowCount, Weights.ColumnCount);
+            previousDeltaBiases = Vector<double>.Build.Dense(Biases.Count);
         }
 
         /// <summary>
@@ -113,24 +119,41 @@ namespace NeuraNet
         /// means a faster network by taking bigger steps, at the cost of a higher chance of missing the 'sweet spot' of
         /// the lowest network error.
         /// </param>
-        public void PerformGradientDescent(double learningRate)
+        /// <param name="momentum">
+        /// The idea about using a momentum is to stabilize the weight change by making nonradical revisions using a
+        /// combination of the gradient decreasing term with a fraction of the previous weight change.
+        /// With momentum, once the weights start moving in a particular direction in weight space, they tend to continue
+        /// moving in that direction. Imagine a ball rolling down a hill that gets stuck in a depression half way down
+        /// the hill. If the ball has enough momentum, it will be able to roll through the depression and continue down the
+        /// hill. Similarly, when applied to weights in a network, momentum can help the network "roll past" a local minima,
+        /// as well as speed learning (especially along long flat error surfaces)
+        /// </param>
+        public void PerformGradientDescent(double learningRate, double momentum)
         {
-            UpdateWeights(learningRate);
-            UpdateBiases(learningRate);
+            UpdateWeights(learningRate, momentum);
+            UpdateBiases(learningRate, momentum);
 
-            nextLayer?.PerformGradientDescent(learningRate);
+            nextLayer?.PerformGradientDescent(learningRate, momentum);
         }
 
-        private void UpdateWeights(double learningRate)
+        private void UpdateWeights(double learningRate, double momentum)
         {
-            Matrix<double> deltaWeights = (learningRate * WeightGradients);
+            Matrix<double> momentums = momentum * previousDeltaWeights;
+
+            Matrix<double> deltaWeights = (learningRate * WeightGradients) + momentums;
             Weights -= deltaWeights;
+
+            previousDeltaWeights = deltaWeights;
         }
 
-        private void UpdateBiases(double learningRate)
+        private void UpdateBiases(double learningRate, double momentum)
         {
-            Vector<double> deltaBiases = (learningRate * BiasGradients);
+            Vector<double> momentums = momentum * previousDeltaBiases;
+
+            Vector<double> deltaBiases = (learningRate * BiasGradients) + momentums;
             Biases -= deltaBiases;
+
+            previousDeltaBiases = deltaBiases;
         }
     }
 }
