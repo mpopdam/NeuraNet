@@ -3,6 +3,7 @@
 using FluentAssertions;
 
 using NeuraNet.Activations;
+using NeuraNet.Cost;
 using NeuraNet.NetworkLayout;
 using NeuraNet.Specs.Builders;
 
@@ -71,6 +72,27 @@ namespace NeuraNet.Specs
             networkOutput.Should().HaveCount(2);
             networkOutput[0].Should().BeApproximately(0.6918, 0.00005);
             networkOutput[1].Should().BeApproximately(0.8596, 0.00005);
+        }
+
+        [Fact]
+        public void When_training_the_network_for_a_single_epoch_it_should_return_the_cost()
+        {
+            // Arrange
+            const int numberOfEpochs = 1;
+
+            var network = new NeuralNetworkBuilder()
+                .Using(new TwoLayerNetworkProvider())
+                .Using(new QuadraticCost())
+                .Build();
+
+            // Act
+            double cost = network.Train(new[]
+            {
+                new TrainingExample(new[] { 0.1, 0.2, 0.3 }, new[] { 1.0, 0.0 })
+            }, numberOfEpochs);
+
+            // Assert
+            cost.Should().BeApproximately(0.83395, 0.000005);
         }
     }
 }
