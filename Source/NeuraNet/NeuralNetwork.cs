@@ -79,7 +79,9 @@ namespace NeuraNet
 
         private double Train(double[] input, Vector<double> target)
         {
-            return 0;
+            Vector<double> output = firstHiddenLayer.FeedForward(input);
+
+            return CostFunction.Calculate(output, target);
         }
     }
 }
