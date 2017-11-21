@@ -14,15 +14,15 @@ namespace NeuraNet
         private Layer previousLayer;
         private Layer nextLayer;
 
-        public IActivation OutputActivation { get; }
+        public IActivation ActivationFunction { get; }
 
         internal Matrix<double> Weights { get; }
         internal Vector<double> Biases { get; }
 
         public Layer(int numberOfNeuronsInPreviousLayer, int numberOfNeurons, ILayerInitializer layerInitializer,
-            IActivation outputActivation)
+            IActivation activationFunction)
         {
-            OutputActivation = outputActivation;
+            ActivationFunction = activationFunction;
 
             Weights = Matrix<double>.Build.Dense(numberOfNeurons, numberOfNeuronsInPreviousLayer, layerInitializer.GetWeight);
             Biases = Vector<double>.Build.Dense(numberOfNeurons, layerInitializer.GetBias);
@@ -36,6 +36,22 @@ namespace NeuraNet
         {
             previousLayer = previous;
             nextLayer = next;
+        }
+
+        /// <summary>
+        /// Calculates the current layer's output values based on the specified <paramref name="inputs"/>, the current
+        /// <see cref="Weights"/> and <see cref="Biases"/> and the used <see cref="ActivationFunction"/> algorithm.
+        /// The output is then passed on to the <see cref="nextLayer"/>. If there is no next layer the output values are
+        /// the output of the entire network.
+        /// </summary>
+        public Vector<double> FeedForward(double[] inputs)
+        {
+            return FeedForward(Vector<double>.Build.DenseOfArray(inputs));
+        }
+
+        private Vector<double> FeedForward(Vector<double> inputs)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+
 using NeuraNet.NetworkLayout;
 
 namespace NeuraNet
@@ -9,6 +11,7 @@ namespace NeuraNet
     public class NeuralNetwork
     {
         private readonly IEnumerable<Layer> layers;
+        private readonly Layer firstHiddenLayer;
 
         /// <summary>
         /// Instantiates a new neural network with the layout provided by the specified <paramref name="layoutProvider"/>.
@@ -17,6 +20,7 @@ namespace NeuraNet
         public NeuralNetwork(INetworkLayoutProvider layoutProvider)
         {
             layers = layoutProvider.GetLayers();
+            firstHiddenLayer = layers.First();
         }
 
         /// <summary>
