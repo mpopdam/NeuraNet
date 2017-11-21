@@ -81,6 +81,7 @@
     <Compile Include="Builders\WeightInitializerBuilder.cs" />
     <Compile Include="NeuralNetworkSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XORNetworkLayout.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -244,5 +244,38 @@ namespace NeuraNet.Specs
             output[0].Should().BeApproximately(1.0, 0.005);
             output[1].Should().BeApproximately(0.0, 0.005);
         }
+
+        [Fact]
+        public void When_querying_the_network_after_training_for_the_XOR_problem_it_should_return_the_correct_output()
+        {
+            // Arrange
+            const int numberOfEpochs = 10000;
+            const double learningRate = 0.3;
+            const double momentum = 0.1;
+
+            var network = new NeuralNetworkBuilder()
+                .Using(new XORNetworkLayout())
+                .Build();
+
+            network.Train(new[]
+            {
+                new TrainingExample(new[] { 0.0, 0.0 }, new[] { 0.0 }),
+                new TrainingExample(new[] { 0.0, 1.0 }, new[] { 1.0 }),
+                new TrainingExample(new[] { 1.0, 0.0 }, new[] { 1.0 }),
+                new TrainingExample(new[] { 1.0, 1.0 }, new[] { 0.0 })
+            }, numberOfEpochs, learningRate, momentum);
+
+            // Act
+            double output_0_0 = network.Query(new[] { 0.0, 0.0 }).Single();
+            double output_0_1 = network.Query(new[] { 0.0, 1.0 }).Single();
+            double output_1_0 = network.Query(new[] { 1.0, 0.0 }).Single();
+            double output_1_1 = network.Query(new[] { 1.0, 1.0 }).Single();
+
+            // Assert
+            output_0_0.Should().BeApproximately(0.0, 0.05);
+            output_0_1.Should().BeApproximately(1.0, 0.05);
+            output_1_0.Should().BeApproximately(1.0, 0.05);
+            output_1_1.Should().BeApproximately(0.0, 0.05);
+        }
     }
 }
