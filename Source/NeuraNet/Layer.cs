@@ -76,6 +76,8 @@ namespace NeuraNet
         public void BackPropagate(Vector<double> dC_dA)
         {
             CalculateGradients(dC_dA);
+
+            previousLayer?.BackPropagate(PreviousLayerActivationGradients);
         }
 
         /// <summary>
@@ -94,6 +96,11 @@ namespace NeuraNet
 
             WeightGradients = nodeDeltas.OuterProduct(inputs);
             BiasGradients = nodeDeltas;
+
+            if (!IsFirstHiddenLayer)
+            {
+                PreviousLayerActivationGradients = nodeDeltas * Weights;
+            }
         }
     }
 }
