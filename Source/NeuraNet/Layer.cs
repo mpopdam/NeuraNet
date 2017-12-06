@@ -86,6 +86,11 @@ namespace NeuraNet
         /// </remarks>
         private void CalculateGradients(Vector<double> dC_dA)
         {
+            Vector<double> dA_dZ = ActivationFunction.Derivative(z);
+            Vector<double> nodeDeltas = dC_dA.PointwiseMultiply(dA_dZ);
+
+            WeightGradients = nodeDeltas.OuterProduct(inputs);
+            BiasGradients = nodeDeltas;
         }
     }
 }

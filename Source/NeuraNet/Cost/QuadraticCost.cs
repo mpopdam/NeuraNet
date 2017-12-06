@@ -13,7 +13,7 @@ namespace NeuraNet.Cost
 
         public Vector<double> Derivative(Vector<double> output, Vector<double> target)
         {
-            return null;
+            return 2 * (output - target);
         }
     }
 }
