@@ -219,5 +219,30 @@ namespace NeuraNet.Specs
             updatedHiddenBiases[2].Should().BeApproximately(0.08746351, 0.000000005);
             updatedHiddenBiases[3].Should().BeApproximately(0.10746534, 0.000000005);
         }
+
+        [Fact]
+        public void When_querying_the_network_after_training_it_should_return_the_correct_output()
+        {
+            // Arrange
+            const int numberOfEpochs = 20000;
+            const double learningRate = 0.3;
+            const double momentum = 0.1;
+
+            var network = new NeuralNetworkBuilder()
+                .Using(new TwoLayerNetworkProvider())
+                .Build();
+
+            network.Train(new[]
+            {
+                new TrainingExample(new[] { 0.1, 0.2, 0.3 }, new[] { 1.0, 0.0 })
+            }, numberOfEpochs, learningRate, momentum);
+
+            // Act
+            double[] output = network.Query(new[] { 0.1, 0.2, 0.3 });
+
+            // Assert
+            output[0].Should().BeApproximately(1.0, 0.005);
+            output[1].Should().BeApproximately(0.0, 0.005);
+        }
     }
 }
