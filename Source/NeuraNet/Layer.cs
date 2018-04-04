@@ -51,7 +51,10 @@ namespace NeuraNet
 
         private Vector<double> FeedForward(Vector<double> inputs)
         {
-            throw new System.NotImplementedException();
+            Vector<double> z = (Weights * inputs) + Biases;
+            Vector<double> activations = ActivationFunction.Calculate(z);
+
+            return (nextLayer != null) ? nextLayer.FeedForward(activations) : activations;
         }
     }
 }
