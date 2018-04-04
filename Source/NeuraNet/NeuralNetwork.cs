@@ -28,7 +28,7 @@ namespace NeuraNet
         /// </summary>
         public double[] Query(double[] input)
         {
-            return new double[0];
+            return firstHiddenLayer.FeedForward(input).ToArray();
         }
     }
 }
