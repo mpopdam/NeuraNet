@@ -9,9 +9,8 @@ namespace NeuraNet.Activations
             return (1 / (1 + Math.Exp(-value)));
         }
 
-        protected override double Derivative(double value)
+        protected override double Derivative(double sigmoid)
         {
-            double sigmoid = Calculate(value);
             return sigmoid * (1 - sigmoid);
         }
     }
