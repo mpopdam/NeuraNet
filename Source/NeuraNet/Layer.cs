@@ -19,7 +19,7 @@ namespace NeuraNet
         internal Matrix<double> Weights { get; private set; }
         internal Vector<double> Biases { get; private set; }
         private Vector<double> inputs;
-        private Vector<double> z;
+        private Vector<double> activations;
 
         internal Matrix<double> WeightGradients { get; private set; }
         internal Vector<double> BiasGradients { get; private set; }
@@ -67,8 +67,8 @@ namespace NeuraNet
         {
             this.inputs = inputs;
 
-            z = (Weights * inputs) + Biases;
-            Vector<double> activations = ActivationFunction.Calculate(z);
+            var z = (Weights * inputs) + Biases;
+            activations = ActivationFunction.Calculate(z);
 
             return (nextLayer != null) ? nextLayer.FeedForward(activations) : activations;
         }
@@ -97,7 +97,7 @@ namespace NeuraNet
         /// </remarks>
         private void CalculateGradients(Vector<double> dC_dA)
         {
-            Vector<double> dA_dZ = ActivationFunction.Derivative(z);
+            Vector<double> dA_dZ = ActivationFunction.Derivative(activations);
             Vector<double> nodeDeltas = dC_dA.PointwiseMultiply(dA_dZ);
 
             WeightGradients = nodeDeltas.OuterProduct(inputs);
